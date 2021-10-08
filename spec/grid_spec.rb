@@ -95,7 +95,7 @@ describe Grid do
     before do
       subject.add_cuboid([0, 0, 0], 10, 10, 10)
     end
-
+    
     it "Should call Cuboid#move_to!" do
       subject.add_cuboid([20, 20, 20], 10, 10, 10)
       expect(subject.cuboids[0]).to receive(:move_to!)
@@ -125,74 +125,152 @@ describe Grid do
   end
   
   describe "#rotate!" do
+    it "Should take in 2 arguments: an index to grab a Cuboid instance, and a direction as a String" do
+      expect {subject.rotate!(0, 'up', 'down')}.to raise_error(ArgumentError)
+      expect {subject.rotate!(0)}.to raise_error(ArgumentError)
+    end
+
     context "When direction is 'up'" do
       context "If move is possible" do
-        
+        before do
+          subject.add_cuboid([0, 0, 0], 10, 10, 10)
+        end
+
+        it "Should change @current_pos[1] (y-axis value) of specified Cuboid instance by the height of the instance" do
+          subject.rotate!(0, 'up')
+          expect(subject.cuboids[0].current_pos[1]).to eq 10
+        end
+
+        it "Should return true" do
+          expect(subject.rotate!(0, 'up')).to be true
+        end
       end
 
       context "If move is not possible" do
         it "Should return false" do
-          expect(subject.rotate!('up')).to be false
+          subject.add_cuboid([0, 90, 0], 10, 10, 10)
+          expect(subject.rotate!(0, 'up')).to be false
         end
       end
     end
 
-    context "When direction is 'down'" do
+    context "When direction is 'down'" do      
       context "If move is possible" do
+        before do
+          subject.add_cuboid([0, 10, 0], 10, 10, 10)
+        end
         
+        it "Should change @current_pos[1] (y-axis value) of specified Cuboid instance by the height of the instance" do
+          subject.rotate!(0, 'down')
+          expect(subject.cuboids[0].current_pos[1]).to eq 0
+        end
+
+        it "Should return true" do
+          expect(subject.rotate!(0, 'down')).to be true
+        end
       end
 
       context "If move is not possible" do
         it "Should return false" do
-          expect(subject.rotate!('down')).to be false
+          subject.add_cuboid([0, 0, 0], 10, 10, 10)
+          expect(subject.rotate!(0, 'down')).to be false
         end
       end
     end
 
     context "When direction is 'left'" do
       context "If move is possible" do
-        
+        before do
+          subject.add_cuboid([10, 0, 0], 10, 10, 10)
+        end
+
+        it "Should change @current_pos[0] (x-axis value) of specified Cuboid instance by the width of the instance" do
+          subject.rotate!(0, 'left')
+          expect(subject.cuboids[0].current_pos[0]).to eq 0
+        end
+
+        it "Should return true" do
+          expect(subject.rotate!(0, 'left')).to be true
+        end
       end
 
       context "If move is not possible" do
         it "Should return false" do
-          expect(subject.rotate!('left')).to be false
+          subject.add_cuboid([0, 0, 0], 10, 10, 10)
+          expect(subject.rotate!(0, 'left')).to be false
         end
       end
     end
 
     context "When direction is 'right'" do
       context "If move is possible" do
+        before do
+          subject.add_cuboid([0, 0, 0], 10, 10, 10)
+        end
+
+        it "Should change @current_pos[0] (x-axis value) of specified Cuboid instance by the width of the instance" do
+          subject.rotate!(0, 'right')
+          expect(subject.cuboids[0].current_pos[0]).to eq 10
+        end
         
+        it "Should return true" do
+          expect(subject.rotate!(0, 'right')).to be true
+        end
       end
 
       context "If move is not possible" do
         it "Should return false" do
-          expect(subject.rotate!('right')).to be false
+          subject.add_cuboid([140, 0, 0], 10, 10, 10)
+          expect(subject.rotate!(0, 'right')).to be false
         end
       end
     end
 
     context "When direction is 'forward'" do
       context "If move is possible" do
-        
+        before do
+          subject.add_cuboid([0, 0, 10], 10, 10, 10)
+        end
+
+        it "Should change @current_pos[2] (z-axis value) of specified Cuboid instance by the length of the instance" do
+          subject.rotate!(0, 'forward')
+          expect(subject.cuboids[0].current_pos[2]).to eq 0
+          expect(subject.cuboids.length).to eq 1
+        end
+
+        it "Should return true" do
+          expect(subject.rotate!(0, 'forward')).to be true
+        end
       end
 
       context "If move is not possible" do
         it "Should return false" do
-          expect(subject.rotate!('forward')).to be false
+          subject.add_cuboid([0, 0, 0], 10, 10, 10)
+          expect(subject.rotate!(0, 'forward')).to be false
         end
       end
     end
 
     context "When direction is 'backward'" do
       context "If move is possible" do
-        
+        before do
+          subject.add_cuboid([0, 0, 0], 10, 10, 10)
+        end
+
+        it "Should change @current_pos[2] (z-axis value) of specified Cuboid instance by the length of the instance" do
+          subject.rotate!(0, 'backward')
+          expect(subject.cuboids[0].current_pos[2]).to eq 10
+        end
+
+        it "Should return true" do
+          expect(subject.rotate!(0, 'backward')).to be true
+        end
       end
 
       context "If move is not possible" do
         it "Should return false" do
-          expect(subject.rotate!('backward')).to be false
+          subject.add_cuboid([0, 0, 190], 10, 10, 10)
+          expect(subject.rotate!(0, 'backward')).to be false
         end
       end
     end

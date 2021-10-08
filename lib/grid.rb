@@ -8,6 +8,23 @@ class Grid
     @cuboids = []
   end
 
+  def valid_move?(cuboid, coords)
+    coords.each_with_index do |pos, idx|
+      return false if pos < 0
+
+      case idx
+      when 0
+        return false if (pos + cuboid.width) > x_max
+      when 1
+        return false if (pos + cuboid.height) > y_max
+      when 2
+        return false if (pos + cuboid.length) > z_max
+      end
+
+      true
+    end
+  end
+
   def get_cuboid(idx)
     @cuboids[idx]
   end
@@ -29,24 +46,31 @@ class Grid
     cuboids.delete_at(idx)
   end
 
-  def move_cuboid(idx, coords)
-    cuboid = cuboids[idx]
+  def move_cuboid(index, coords)
+    cuboid = cuboids[index]
     return false if cuboid.nil?
 
-    coords.each_with_index do |pos, idx|
-      return false if pos < 0
+    valid_move?(cuboid, coords) ? cuboid.move_to!(*coords) : false
+  end
 
-      case idx
-      when 0
-        return false if (pos + cuboid.width) > x_max
-      when 1
-        return false if (pos + cuboid.height) > y_max
-      when 2
-        return false if (pos + cuboid.length) > z_max
-      end
+  def rotate!(index, dir)
+    cuboid = cuboids[index]
+    x, y, z = cuboid.current_pos
+
+    case dir
+    when 'up'
+      move_cuboid(index, [x, y + 10, z])
+    when 'down'
+      move_cuboid(index, [x, y - 10, z])
+    when 'left'
+      move_cuboid(index, [x - 10, y, z])
+    when 'right'
+      move_cuboid(index, [x + 10, y, z])
+    when 'forward'
+      move_cuboid(index, [x, y, z - 10])
+    when 'backward'
+      move_cuboid(index, [x, y, z + 10])
     end
-
-    cuboid.move_to!(*coords)
   end
 
   private
