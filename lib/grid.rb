@@ -21,11 +21,28 @@ class Grid
 
   def remove_cuboid(idx)
     return false if idx >= cuboids.length
+
     cuboids.delete_at(idx)
   end
 
   def move_cuboid(idx, coords)
+    cuboid = cuboids[idx]
+    return false if cuboid.nil?
 
+    coords.each_with_index do |pos, idx|
+      return false if pos < 0
+
+      case idx
+      when 0
+        return false if (pos + cuboid.width) > x_max
+      when 1
+        return false if (pos + cuboid.height) > y_max
+      when 2
+        return false if (pos + cuboid.length) > z_max
+      end
+    end
+
+    cuboid.move_to!(*coords)
   end
 
   private

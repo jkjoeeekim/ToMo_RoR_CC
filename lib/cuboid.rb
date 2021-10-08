@@ -49,7 +49,7 @@ class Cuboid
       false
     end
   end
-  
+
   # Uses helper methods defined above to create an array on vertices containing the coordinates of each corner of the Cuboid this instance method was called on
   def vertices
     vertices = [];
