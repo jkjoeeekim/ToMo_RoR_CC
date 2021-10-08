@@ -26,9 +26,10 @@ describe Grid do
     before do
       subject.add_cuboid([0, 0, 0], 10, 10, 10)
     end
-
+    
     it "Should call Cuboid#intersects? to check if the new cuboid intersects with any existing cuboids" do
-      expect(subject).to receive(:intersects?)
+      expect(subject.cuboids[0]).to receive(:intersects?)
+      subject.add_cuboid([20, 20, 20], 10, 10, 10)
     end
 
     context "Given valid coords" do
@@ -80,7 +81,9 @@ describe Grid do
     end
 
     it "Should call Cuboid#intersects? to check if the move coords cause an intersection with an existing cuboid" do
+      subject.add_cuboid([20, 20, 20], 10, 10, 10)
       expect(subject.cuboids[0]).to receive(:intersects?)
+      subject.move_cuboid(0, [50, 50, 50])
     end
 
     it "Should return false if given coords are out of bounds within grid parameters" do

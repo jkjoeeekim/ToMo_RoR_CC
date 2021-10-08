@@ -20,7 +20,7 @@ class Grid
   end
 
   def remove_cuboid(idx)
-
+    
   end
 
   def move_cuboid(idx, coords)
