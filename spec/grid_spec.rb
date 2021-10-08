@@ -22,6 +22,18 @@ describe Grid do
     end
   end
 
+  describe "#get_cuboid" do
+    before do
+      subject.add_cuboid([0, 0, 0], 10, 10, 10)
+      subject.add_cuboid([20, 20, 20], 10, 10, 10)
+    end
+
+    it "Should return a Cuboid instance at given index of @cuboids array" do
+      expect(subject.get_cuboid(1).is_a? Cuboid).to be true
+      expect(subject.get_cuboid(1).origin).to eq [20, 20, 20]
+    end
+  end
+
   describe "#add_cuboid" do
     before do
       subject.add_cuboid([0, 0, 0], 10, 10, 10)

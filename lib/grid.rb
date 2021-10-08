@@ -8,6 +8,10 @@ class Grid
     @cuboids = []
   end
 
+  def get_cuboid(idx)
+    @cuboids[idx]
+  end
+
   def add_cuboid(origin, x_width, y_height, z_length)
     new_cuboid = Cuboid.new(origin, x_width, y_height, z_length)
 
