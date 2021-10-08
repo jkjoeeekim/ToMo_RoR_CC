@@ -123,4 +123,78 @@ describe Grid do
       end
     end
   end
+  
+  describe "#rotate!" do
+    context "When direction is 'up'" do
+      context "If move is possible" do
+        
+      end
+
+      context "If move is not possible" do
+        it "Should return false" do
+          expect(subject.rotate!('up')).to be false
+        end
+      end
+    end
+
+    context "When direction is 'down'" do
+      context "If move is possible" do
+        
+      end
+
+      context "If move is not possible" do
+        it "Should return false" do
+          expect(subject.rotate!('down')).to be false
+        end
+      end
+    end
+
+    context "When direction is 'left'" do
+      context "If move is possible" do
+        
+      end
+
+      context "If move is not possible" do
+        it "Should return false" do
+          expect(subject.rotate!('left')).to be false
+        end
+      end
+    end
+
+    context "When direction is 'right'" do
+      context "If move is possible" do
+        
+      end
+
+      context "If move is not possible" do
+        it "Should return false" do
+          expect(subject.rotate!('right')).to be false
+        end
+      end
+    end
+
+    context "When direction is 'forward'" do
+      context "If move is possible" do
+        
+      end
+
+      context "If move is not possible" do
+        it "Should return false" do
+          expect(subject.rotate!('forward')).to be false
+        end
+      end
+    end
+
+    context "When direction is 'backward'" do
+      context "If move is possible" do
+        
+      end
+
+      context "If move is not possible" do
+        it "Should return false" do
+          expect(subject.rotate!('backward')).to be false
+        end
+      end
+    end
+  end
 end
