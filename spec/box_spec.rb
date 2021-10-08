@@ -1,10 +1,10 @@
-require 'grid'
+require 'box'
 require 'cuboid'
 
-describe Grid do
-  let (:subject) { (Grid.new([150, 100, 200])) }
+describe Box do
+  let (:subject) { (Box.new([150, 100, 200])) }
 
-  describe "Properly initializes a new Grid instance" do
+  describe "Properly initializes a new Box instance" do
     it "Sets the first index of passed argument [x, y, z] as maximum parameters for x-axis" do
       expect(subject.x_max).to eq 150
     end
@@ -40,7 +40,7 @@ describe Grid do
     end
     
     it "Should call Cuboid#intersects? to check if the new cuboid intersects with any existing cuboids" do
-      expect(subject.cuboids[0]).to receive(:intersects?)
+      expect(subject.cuboids.first).to receive(:intersects?)
       subject.add_cuboid([20, 20, 20], 10, 10, 10)
     end
 
@@ -98,11 +98,11 @@ describe Grid do
     
     it "Should call Cuboid#move_to!" do
       subject.add_cuboid([20, 20, 20], 10, 10, 10)
-      expect(subject.cuboids[0]).to receive(:move_to!)
+      expect(subject.cuboids.first).to receive(:move_to!)
       subject.move_cuboid(0, [50, 50, 50])
     end
 
-    it "Should return false if given coords are out of bounds within grid parameters" do
+    it "Should return false if given coords are out of bounds within Box parameters" do
       expect(subject.move_cuboid(0, [-10, 0, 0])).to be false
       expect(subject.move_cuboid(0, [160, 0, 0])).to be false
     end
@@ -112,6 +112,11 @@ describe Grid do
     end
 
     context "Given valid move coords" do
+      it "Should move the current_pos of a cuboid at given index to specified coordinates" do
+        subject.move_cuboid(0, [50, 50, 50])
+        expect(subject.cuboids.first.current_pos).to eq [50, 50, 50]
+      end
+
       it "Should return true" do
         expect(subject.move_cuboid(0, [140, 0, 0])).to be true
       end
@@ -138,7 +143,7 @@ describe Grid do
 
         it "Should change @current_pos[1] (y-axis value) of specified Cuboid instance by the height of the instance" do
           subject.rotate!(0, 'up')
-          expect(subject.cuboids[0].current_pos[1]).to eq 10
+          expect(subject.cuboids.first.current_pos[1]).to eq 10
         end
 
         it "Should return true" do
@@ -162,7 +167,7 @@ describe Grid do
         
         it "Should change @current_pos[1] (y-axis value) of specified Cuboid instance by the height of the instance" do
           subject.rotate!(0, 'down')
-          expect(subject.cuboids[0].current_pos[1]).to eq 0
+          expect(subject.cuboids.first.current_pos[1]).to eq 0
         end
 
         it "Should return true" do
@@ -186,7 +191,7 @@ describe Grid do
 
         it "Should change @current_pos[0] (x-axis value) of specified Cuboid instance by the width of the instance" do
           subject.rotate!(0, 'left')
-          expect(subject.cuboids[0].current_pos[0]).to eq 0
+          expect(subject.cuboids.first.current_pos[0]).to eq 0
         end
 
         it "Should return true" do
@@ -210,7 +215,7 @@ describe Grid do
 
         it "Should change @current_pos[0] (x-axis value) of specified Cuboid instance by the width of the instance" do
           subject.rotate!(0, 'right')
-          expect(subject.cuboids[0].current_pos[0]).to eq 10
+          expect(subject.cuboids.first.current_pos[0]).to eq 10
         end
         
         it "Should return true" do
@@ -234,7 +239,7 @@ describe Grid do
 
         it "Should change @current_pos[2] (z-axis value) of specified Cuboid instance by the length of the instance" do
           subject.rotate!(0, 'forward')
-          expect(subject.cuboids[0].current_pos[2]).to eq 0
+          expect(subject.cuboids.first.current_pos[2]).to eq 0
           expect(subject.cuboids.length).to eq 1
         end
 
@@ -259,7 +264,7 @@ describe Grid do
 
         it "Should change @current_pos[2] (z-axis value) of specified Cuboid instance by the length of the instance" do
           subject.rotate!(0, 'backward')
-          expect(subject.cuboids[0].current_pos[2]).to eq 10
+          expect(subject.cuboids.first.current_pos[2]).to eq 10
         end
 
         it "Should return true" do
@@ -272,6 +277,13 @@ describe Grid do
           subject.add_cuboid([0, 0, 190], 10, 10, 10)
           expect(subject.rotate!(0, 'backward')).to be false
         end
+      end
+    end
+
+    context "When direction is invalid" do
+      it "Should raise error 'Not a valid direction'" do
+        subject.add_cuboid([0, 0, 0], 10, 10, 10)
+        expect {subject.rotate!(0, 'frontwards')}.to raise_error("Not a valid direction")
       end
     end
   end

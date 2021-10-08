@@ -2,12 +2,12 @@ require 'byebug'
 
 class Cuboid
   
-  #BEGIN public methods that should be your starting point
+  #BEGIN public methods
 
   # Set attr_reader to access instance variables
   attr_reader :origin, :height, :width, :length, :current_pos
 
-  # Instantialize an instance of Cuboid with:
+  # Instantialize a Cuboid with:
     # origin: to set starting point [x, y, z], 
     # width: to track x-axis width, 
     # height: to track y-axis height, 
@@ -95,9 +95,14 @@ class Cuboid
     true
   end
 
-  #END public methods that should be your starting point  
+  #END public methods
 
+  #START private methods
+  
+  # Private attr_writer to restrict instance variable manupulation to within class definition
   private
   attr_writer :current_pos
+
+  #END private methods
 
 end
