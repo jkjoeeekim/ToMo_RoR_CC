@@ -1,3 +1,4 @@
+require 'byebug'
 
 class Cuboid
   
@@ -38,6 +39,14 @@ class Cuboid
     [current_z_coord, (current_z_coord + self.length)]
   end
 
+  def is_between?(cube_1, cube_2)
+    cube_1_start, cube_1_end = cube_1
+    cube_2_start, cube_2_end = cube_2
+
+    cube_2.any? { |pos| (cube_1_start..cube_1_end).to_a.include?(pos) }
+    # [cube_1_start..cube_1_end].include?(cube_2_start)
+  end
+
   # Checks if given coordinates are positive integers (assuming negative values are not allowed && grid stretches to positive infinity)
    # If true  => change the current_pos of self to new coords && return true
    # If false => do not change current_pos && return false
@@ -65,20 +74,26 @@ class Cuboid
     vertices
   end
   
-  #returns true if the two cuboids intersect each other.  False otherwise.
+  # Uses helper method #is_between? to determine if two pairs of coords overlap
+  # 
   def intersects?(other)
-    cube_x_start, cube_x_end = x_axis_coords
-    cube_y_start, cube_y_end = y_axis_coords
-    cube_z_start, cube_z_end = z_axis_coords
+    cube_1_all_coords = [x_axis_coords, y_axis_coords, z_axis_coords]
+    cube_2_all_coords = [other.x_axis_coords, other.y_axis_coords, other.z_axis_coords]
 
-    other_x_start, other_x_end = other.x_axis_coords
-    other_y_start, other_y_end = other.y_axis_coords
-    other_z_start, other_z_end = other.z_axis_coords
+    cube_1_all_coords.each_with_index do |coord_1, idx|
+      coord_2 = cube_2_all_coords[idx]
+      
+      if !is_between?(coord_1, coord_2)
+        return false
+      end
+    end
 
-    cube_x_end > other_x_start && cube_y_end > other_y_start && cube_z_end > other_z_start
+    true
   end
 
   #END public methods that should be your starting point  
+
   private
   attr_writer :current_pos
+
 end

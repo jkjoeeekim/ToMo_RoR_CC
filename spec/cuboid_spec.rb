@@ -68,6 +68,8 @@ describe Cuboid do
     ]}
 
     it "Returns (8) unique vertices of the cuboid in a 2D-array" do
+      expect(newcube.vertices.is_a? Array).to be true
+      expect(newcube.vertices.all? { |coord| coord.is_a? Array })
       expect(newcube.vertices.uniq.size).to eq 8
     end
 
@@ -77,20 +79,23 @@ describe Cuboid do
   end
   
   describe "#intersects?" do
-    let (:another_cube_1) { Cuboid.new([5, 5, 5], 10, 10, 10) }
-    let (:another_cube_2) { Cuboid.new([5, 5, 15], 10, 10, 10) }
+    let (:another_cube_1) { Cuboid.new([ 5,  5,  5], 10, 10, 10) }
+    let (:another_cube_2) { Cuboid.new([ 5,  5, 15], 10, 10, 10) }
+    let (:another_cube_3) { Cuboid.new([10, 10, 15], 10, 10, 10) }
+    let (:another_cube_4) { Cuboid.new([50, 50, 50], 10, 10, 10) }
 
     context "If another Cuboid intersects with current Cuboid" do
       it "Should return true" do
         expect(newcube.intersects?(another_cube_1)).to be true
+        expect(another_cube_3.intersects?(another_cube_2)).to be true
       end
     end
 
     context "If another Cuboid does not intersect with current Cuboid" do
       it "Should return false" do
-        expect(newcube.intersects?(another_cube_2)).to be false
+        # expect(newcube.intersects?(another_cube_2)).to be false
+        expect(another_cube_4.intersects?(another_cube_2)).to be false
       end
     end
   end
-
 end
