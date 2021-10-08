@@ -12,7 +12,7 @@ class Grid
     new_cuboid = Cuboid.new(origin, x_width, y_height, z_length)
 
     if cuboids.none? { |cuboid| cuboid.intersects?(new_cuboid) }
-      @cuboids.push(Cuboid.new(origin, x_width, y_height, z_length))
+      cuboids.push(Cuboid.new(origin, x_width, y_height, z_length))
       return true
     end
 
@@ -20,7 +20,8 @@ class Grid
   end
 
   def remove_cuboid(idx)
-    
+    return false if idx >= cuboids.length
+    cuboids.delete_at(idx)
   end
 
   def move_cuboid(idx, coords)

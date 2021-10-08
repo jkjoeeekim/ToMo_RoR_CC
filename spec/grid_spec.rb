@@ -73,6 +73,10 @@ describe Grid do
       subject.remove_cuboid(1)
       expect(subject.cuboids.none? { |cuboid| cuboid.origin == [20, 20, 20]}).to be true
     end
+
+    it "Should return false if cuboid does not exist at given index" do
+      expect(subject.remove_cuboid(4)).to be false
+    end
   end
 
   describe "#move_cuboid" do
