@@ -6,7 +6,7 @@ require 'cuboid'
 describe Cuboid do
   let (:subject) { (Cuboid.new([0, 0, 0], 10, 10, 10)) }
 
-  describe "Properly initializes a new Cuboid instance" do
+  describe "#initialize" do
     it "Sets the first argument to a local variable @origin" do
       expect(subject.origin).to eq [0, 0, 0]
     end

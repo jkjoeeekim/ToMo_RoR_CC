@@ -4,7 +4,7 @@ require 'cuboid'
 describe Box do
   let (:subject) { (Box.new([150, 100, 200])) }
 
-  describe "Properly initializes a new Box instance" do
+  describe "#initialize" do
     it "Sets the first index of passed argument [x, y, z] as maximum parameters for x-axis" do
       expect(subject.x_max).to eq 150
     end
