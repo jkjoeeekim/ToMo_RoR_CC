@@ -39,12 +39,14 @@ class Cuboid
     [current_z_coord, (current_z_coord + self.length)]
   end
 
+  # Checks to see if start --> end of cube_1 includes any of the positions in cube_2
+  # Edge case return true if cube_1 and cube_2 are at the same spot. ie: [0, 10] == [0, 10] 
   def is_between?(cube_1, cube_2)
     cube_1_start, cube_1_end = cube_1
     cube_2_start, cube_2_end = cube_2
+    return true if cube_1 == cube_2
 
-    cube_2.any? { |pos| (cube_1_start..cube_1_end).to_a.include?(pos) }
-    # [cube_1_start..cube_1_end].include?(cube_2_start)
+    cube_2.any? { |pos| ((cube_1_start + 1)...cube_1_end).to_a.include?(pos) }
   end
 
   # Checks if given coordinates are positive integers (assuming negative values are not allowed && grid stretches to positive infinity)
@@ -74,8 +76,10 @@ class Cuboid
     vertices
   end
   
-  # Uses helper method #is_between? to determine if two pairs of coords overlap
-  # 
+  # Iterates through the coordinates of each plane(x, y ,z)
+    # Passes each plane of 'self' with corresponding plane of 'other' to helper method #is_between?
+    # If #is_between? returns false at any time, return false
+    # Else continue execution and implicit return true
   def intersects?(other)
     cube_1_all_coords = [x_axis_coords, y_axis_coords, z_axis_coords]
     cube_2_all_coords = [other.x_axis_coords, other.y_axis_coords, other.z_axis_coords]
