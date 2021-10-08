@@ -91,21 +91,44 @@ class Box
   # Calls helper method Grid#move_cuboid which will check #valid_move? and return true/false
   def rotate!(index, dir)
     cuboid = get_cuboid(index)
+    prev_height = cuboid.height
+    prev_width = cuboid.width
+    prev_length = cuboid.length
     x, y, z = cuboid.current_pos
 
     case dir
-    when 'up'
-      move_cuboid(index, [x, y + cuboid.height, z])
-    when 'down'
-      move_cuboid(index, [x, y - cuboid.height, z])
     when 'left'
-      move_cuboid(index, [x - cuboid.width, y, z])
+      if move_cuboid(index, [x - cuboid.width, y, z])
+        cuboid.change_height(prev_width)
+        cuboid.change_width(prev_height)
+        true
+      else
+        false
+      end
     when 'right'
-      move_cuboid(index, [x + cuboid.width, y, z])
+      if move_cuboid(index, [x + cuboid.width, y, z])
+        cuboid.change_height(prev_width)
+        cuboid.change_width(prev_height)
+        true
+      else
+        false
+      end
     when 'forward'
-      move_cuboid(index, [x, y, z - cuboid.length])
+      if move_cuboid(index, [x, y, z - cuboid.length])
+        cuboid.change_length(prev_height)
+        cuboid.change_height(prev_length)
+        true
+      else
+        false
+      end
     when 'backward'
-      move_cuboid(index, [x, y, z + cuboid.length])
+      if move_cuboid(index, [x, y, z + cuboid.length])
+        cuboid.change_length(prev_height)
+        cuboid.change_height(prev_length)
+        true
+      else
+        false
+      end
     else
       raise StandardError.new("Not a valid direction")
     end

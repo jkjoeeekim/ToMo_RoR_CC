@@ -21,6 +21,18 @@ class Cuboid
     @current_pos ||= origin
   end
 
+  def change_length(new_length)
+    length = new_length
+  end
+
+  def change_width(new_width)
+    width = new_width
+  end
+
+  def change_height(new_height)
+    height = new_height
+  end
+
   # Returns an array containing x-axis coordinates [(current_pos[x]), (current_pos[x] + width)]
   def x_axis_coords
     current_x_coord = self.current_pos[0]
@@ -46,7 +58,9 @@ class Cuboid
     cube_2_start, cube_2_end = cube_2
     return true if cube_1 == cube_2
 
-    cube_2.any? { |pos| ((cube_1_start + 1)...cube_1_end).to_a.include?(pos) }
+    # EDIT HERE FOR ALL TEST CASES
+    # [20, 30] [0, 40]
+    cube_2.any? { |pos| ((cube_1_start + 1)...cube_1_end).to_a.include?(pos) } || cube_1.any? { |pos| ((cube_2_start + 1)...cube_2_end).to_a.include?(pos) }
   end
 
   # Checks if given coordinates are positive integers (assuming negative values are not allowed && grid stretches to positive infinity)
@@ -86,7 +100,7 @@ class Cuboid
 
     cube_1_all_coords.each_with_index do |coord_1, idx|
       coord_2 = cube_2_all_coords[idx]
-      
+
       if !is_between?(coord_1, coord_2)
         return false
       end
@@ -101,7 +115,7 @@ class Cuboid
   
   # Private attr_writer to restrict instance variable manupulation to within class definition
   private
-  attr_writer :current_pos
+  attr_writer :current_pos 
 
   #END private methods
 

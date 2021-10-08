@@ -135,54 +135,6 @@ describe Box do
       expect {subject.rotate!(0)}.to raise_error(ArgumentError)
     end
 
-    context "When direction is 'up'" do
-      context "If move is possible" do
-        before do
-          subject.add_cuboid([0, 0, 0], 10, 10, 10)
-        end
-
-        it "Should change @current_pos[1] (y-axis value) of specified Cuboid instance by the height of the instance" do
-          subject.rotate!(0, 'up')
-          expect(subject.cuboids.first.current_pos[1]).to eq 10
-        end
-
-        it "Should return true" do
-          expect(subject.rotate!(0, 'up')).to be true
-        end
-      end
-
-      context "If move is not possible" do
-        it "Should return false" do
-          subject.add_cuboid([0, 90, 0], 10, 10, 10)
-          expect(subject.rotate!(0, 'up')).to be false
-        end
-      end
-    end
-
-    context "When direction is 'down'" do      
-      context "If move is possible" do
-        before do
-          subject.add_cuboid([0, 10, 0], 10, 10, 10)
-        end
-        
-        it "Should change @current_pos[1] (y-axis value) of specified Cuboid instance by the height of the instance" do
-          subject.rotate!(0, 'down')
-          expect(subject.cuboids.first.current_pos[1]).to eq 0
-        end
-
-        it "Should return true" do
-          expect(subject.rotate!(0, 'down')).to be true
-        end
-      end
-
-      context "If move is not possible" do
-        it "Should return false" do
-          subject.add_cuboid([0, 0, 0], 10, 10, 10)
-          expect(subject.rotate!(0, 'down')).to be false
-        end
-      end
-    end
-
     context "When direction is 'left'" do
       context "If move is possible" do
         before do
