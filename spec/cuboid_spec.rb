@@ -7,19 +7,19 @@ describe Cuboid do
   let (:subject) { (Cuboid.new([0, 0, 0], 10, 10, 10)) }
 
   describe "#initialize" do
-    it "Sets the first argument to a local variable @origin" do
+    it "Sets the first argument to a instance variable @origin" do
       expect(subject.origin).to eq [0, 0, 0]
     end
 
-    it "Sets the second argument to a local variable @width" do
+    it "Sets the second argument to a instance variable @width" do
       expect(subject.width).to eq 10
     end
 
-    it "Sets the third argument to a local variable @height" do
+    it "Sets the third argument to a instance variable @height" do
       expect(subject.height).to eq 10
     end
 
-    it "Sets the fourth argument to a local variable @length" do
+    it "Sets the fourth argument to a instance variable @length" do
       expect(subject.length).to eq 10
     end
   end
